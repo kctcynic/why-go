@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"strconv"
 
 	"app/handlers"
@@ -20,6 +21,13 @@ func main() {
 	//var port string
 	port := ":" + strconv.Itoa(*portPtr)
 
+
+	var ms, err = handlers.NewMemoryStore()
+	if err != nil {
+		log.Fatalf("Failed to create memory store", err)
+	}
+
+
 	// Echo instance
 	e := echo.New()
 
@@ -36,12 +44,27 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
+	//
+	// Inject our own custom context with memory database
+	//
+	e.Use(func(h echo.HandlerFunc) echo.HandlerFunc {
+		return func(c echo.Context) error {
+			cc := &handlers.CustomContext{Context: c}
+			cc.SetDatabase(ms)
+			return h(cc)
+		}
+	})
+
 	// Static Assets
 	e.File("/favicon.ico", "images/favicon.ico")
 
 	// Routes
 	e.GET("/", handlers.Hello)
 	e.POST("/echo", handlers.Echo)
+
+	e.POST("/createTask", handlers.CreateTask)
+	e.POST("/startTask", handlers.StartTask)
+	e.POST("/finishTask", handlers.FinishTask)
 
 	// Start server
 	e.Logger.Fatal(e.Start(port))

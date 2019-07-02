@@ -9,6 +9,6 @@ import (
 
 // Hello handles GET requests on /
 func Hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, World!")
+	return c.String(http.StatusOK, "Hello World from API!")
 }
   
