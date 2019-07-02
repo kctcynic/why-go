@@ -25,12 +25,19 @@ func main() {
 
 	e.Use(middleware.BodyDump(func(c echo.Context, reqBody, resBody []byte) {
 		fmt.Println("REQ:", string(reqBody))
-		fmt.Println("RES:", string(resBody))
+		ct := c.Response().Header().Get(echo.HeaderContentType)
+		fmt.Println("Result content type is", ct)
+		if ct[:6] != "image/" {
+			fmt.Println("RES:", string(resBody))
+		}
 	}))
 
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
+	// Static Assets
+	e.File("/favicon.ico", "images/favicon.ico")
 
 	// Routes
 	e.GET("/", handlers.Hello)

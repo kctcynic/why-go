@@ -29,14 +29,12 @@ func main() {
 	// Echo instance
 	e := echo.New()
 
-	e.Use(middleware.BodyDump(func(c echo.Context, reqBody, resBody []byte) {
-		fmt.Println("REQ:", string(reqBody))
-		fmt.Println("RES:", string(resBody))
-	}))
-
 	// Middleware
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+
+	// Static Assets
+	e.File("/favicon.ico", "images/favicon.ico")
 
 	// Routes
 	e.GET("/", hello)
