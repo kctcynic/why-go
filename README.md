@@ -1,16 +1,17 @@
-##Examples for Why Go Meetup Talk
+# Why Goo
+## Examples for Why Go Meetup Talk
 https://docs.google.com/presentation/d/11MmlRQLn1idUuXPJA4H6fy2bX-IbPTXOQ2y5NVFMIWk/edit?usp=sharing
 
-###hello
+### hello
     standard minimal program
 
-###server
+### server
     example of using echo framework
 
-###api
+### api
     example of using echo framework to create an api server
 
-###cli
+### cli
     example of a command line app using cobra
 
 
