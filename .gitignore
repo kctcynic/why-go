@@ -1,4 +1,8 @@
+# Don't check in dependent packages, but we need the directory
 **/.cache/pkg/*
+!**/.keep
 
 hello/hello
+
+cli/cli
 
